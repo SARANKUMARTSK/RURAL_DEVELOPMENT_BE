@@ -6,7 +6,7 @@ import UserRoutes from './src/routes/user.js'
 dotenv.config()
 const app = express();
 app.use(express.json())
-app.use(cors({origin:["effervescent-banoffee-bf65cb.netlify.app","http://localhost:5173"],credentials:true}));
+app.use(cors({origin:["*"],credentials:true}));
 
 app.get("/",(req,res)=>{
     res.status(200).send(

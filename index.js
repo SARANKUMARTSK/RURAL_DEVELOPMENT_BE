@@ -1,10 +1,24 @@
 import express from "express"
 import cors from 'cors'
 import dotenv from 'dotenv'
+import UserRoutes from './src/routes/user.js'
+
 dotenv.config()
-import AppRoutes from './src/routes/index.js'
 const app = express();
-app.use(cors());
 app.use(express.json())
-app.use(AppRoutes)
+app.use(cors({origin:["effervescent-banoffee-bf65cb.netlify.app","http://localhost:5173"],credentials:true}));
+
+app.get("/",(req,res)=>{
+    res.status(200).send(
+        `<div style="background-color: black; color: white; padding: 15px; text-align: center; ">
+             <h1>Welcome to Rural Development Application </h1>
+        </div>`
+    )
+})
+
+app.use("/user",UserRoutes)
+
+
+
+
 app.listen(process.env.PORT,()=>console.log(`App is Running in ${process.env.PORT}`))

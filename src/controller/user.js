@@ -141,7 +141,7 @@ const forgotMail = async (req, res) => {
                 
                 html : `<div>
                 <h6>Hello User , Please click the below link to reset your password </h6>
-                <a>http://localhost:5173/reset-password/${token}</a>
+                <a>effervescent-banoffee-bf65cb.netlify.app/reset-password/${token}</a>
                 </div>`
             }
     

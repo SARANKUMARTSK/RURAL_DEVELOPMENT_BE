@@ -70,9 +70,25 @@ const userSchema = new mongoose.Schema(
             type:String ,
             default:"user"
         },
+        subRole :{
+            type:String ,
+            default:""
+        },
         createdAt:{
             type:Date , 
             default:new Date()
+        },
+        complaints:{
+            type:Array , 
+            default :[]
+        },
+        donations:{
+            type:Array , 
+            default :[]
+        },
+        products:{
+            type:Array , 
+            default : []
         }
     },
     {

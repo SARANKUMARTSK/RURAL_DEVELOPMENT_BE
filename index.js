@@ -3,6 +3,10 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import UserRoutes from './src/routes/user.js'
 import ComplaintRoutes from './src/routes/complaint.js'
+import ContactRoutes from './src/routes/contact.js'
+import DonationRoutes from './src/routes/donation.js'
+import ProductRoutes from './src/routes/product.js'
+import WasteRoutes from './src/routes/waste.js'
 
 dotenv.config()
 const app = express();
@@ -19,7 +23,10 @@ app.get("/",(req,res)=>{
 
 app.use("/user",UserRoutes)
 app.use("/complaints",ComplaintRoutes)
-
+app.use("/contacts",ContactRoutes)
+app.use("/donations",DonationRoutes)
+app.use("/products" , ProductRoutes)
+app.use("/waste", WasteRoutes)
 
 
 

@@ -1,5 +1,14 @@
 import mongoose from "./index.js";
 
+function generateRandomString(length) {
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var randomString = '';
+    for (var i = 0; i < length; i++) {
+        var randomIndex = Math.floor(Math.random() * characters.length);
+        randomString += characters.charAt(randomIndex);
+    }
+    return randomString;
+}
 
 const complaintSchema = new mongoose.Schema(
     {
@@ -19,7 +28,7 @@ const complaintSchema = new mongoose.Schema(
             type : String , 
             required : [true , "UserId is Required"]
         },
-        panjayath : {
+        locality : {
             type : String , 
             required :[true , "Panjayath Name is Required"]
         },
@@ -30,6 +39,10 @@ const complaintSchema = new mongoose.Schema(
         district :{
             type:String , 
             required : [true , "District is Required"]
+        },
+        state :{
+            type:String , 
+            required : [true , "State is Required"]
         },
         department :{
             type :String , 
@@ -59,6 +72,10 @@ const complaintSchema = new mongoose.Schema(
             type:String , 
             default : "Not-Assigned"
         },
+        referenceLink :{
+            type:String , 
+            default : generateRandomString(25)
+        }
        
     },
     {

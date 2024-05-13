@@ -1,6 +1,4 @@
 import express from 'express'
-import dotenv from 'dotenv'
-dotenv.config()
 import UserController from '../controller/user.js'
 const router = express.Router()
 

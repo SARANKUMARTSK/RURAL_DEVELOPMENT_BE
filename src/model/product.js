@@ -38,7 +38,7 @@ const productSchema = new mongoose.Schema(
             type:String, 
             required :[true , "Price is Required"]
         },
-        panjayath:{
+        locality:{
             type:String , 
             required:[true , "Panjayath is Required"]
         },

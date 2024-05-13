@@ -2,6 +2,7 @@ import express from "express"
 import cors from 'cors'
 import dotenv from 'dotenv'
 import UserRoutes from './src/routes/user.js'
+import ComplaintRoutes from './src/routes/complaint.js'
 
 dotenv.config()
 const app = express();
@@ -17,6 +18,7 @@ app.get("/",(req,res)=>{
 })
 
 app.use("/user",UserRoutes)
+app.use("/complaints",ComplaintRoutes)
 
 
 

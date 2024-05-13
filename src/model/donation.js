@@ -35,7 +35,7 @@ const donationSchema = mongoose.Schema(
             type:String , 
             default :"Not-Mentioned"
         },
-        panjayath:{
+        locality:{
             type:String , 
             required:[true , "Panjayath is Required"]
         },

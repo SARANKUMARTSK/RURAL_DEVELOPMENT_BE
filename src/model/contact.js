@@ -31,7 +31,7 @@ const contactSchema = new mongoose.Schema(
             type:String , 
             required:[true , "Position is Required"]
         },
-        panjayath:{
+        locality:{
             type:String , 
             default:""
         },

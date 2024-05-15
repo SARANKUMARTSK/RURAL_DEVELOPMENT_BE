@@ -5,16 +5,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 import multer from 'multer'
 
-const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-      cb(null, './src/images');
-    },
-    filename: function(req, file, cb) {
-      cb(null, `${Date.now()}_${file.originalname}`);
-    }
-  });
- 
-  const upload = multer({ storage: storage });
+
 
 
 const getAllComplaints = async(req,res)=>{
@@ -46,18 +37,31 @@ const getComplaintByid = async(req,res)=>{
     }
 }
 
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+      cb(null, './src/images');
+    },
+    filename: function(req, file, cb) {
+      cb(null, `${Date.now()}_${file.originalname}`);
+    }
+  });
+
+
+  const upload = multer({ storage: storage });
+
 const createComplaint = async (req, res) => {
     try {
         
-        let user = await UserModel.findOne({ _id: req.body.userId });
-        if (user) {
+        let user = await UserModel.findOne({ _id: req.params.id });
+        if(user){
             upload.single('imageFile')(req,res,async function(err){
                 if(err instanceof multer.MulterError){
                     return res.status(500).send({message:"Multer Error Occured"})
                 }else if(err){
                     return res.status(500).send({ message: 'Unknown error occurred' });
                 }
-            })
+            
+           
             let complaint = await ComplaintModel.create({
                 userName:req.body.userName,
                 userEmail:req.body.userEmail,
@@ -70,19 +74,22 @@ const createComplaint = async (req, res) => {
                 department:req.body.department, 
                 title:req.body.title, 
                 description:req.body.description , 
-                complaintImage:req.file.filename
+                imageFile :req.file.filename
             });
             sendMail(complaint);
 
             res.status(201).send({
                 message: "Complaint Registered Successfully",
                 complaint
-            });
-        } else {
+            });})
+        
+        }else{
             res.status(404).send({
-                message: "Only Registered Users Can Raise a Complaint"
-            });
+                message:"Opps...Only Registered User Can Create Complaint"
+            })
         }
+        
+       
     } catch (error) {
         console.error(error);
         res.status(500).send({

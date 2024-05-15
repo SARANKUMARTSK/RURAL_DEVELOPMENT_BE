@@ -44,6 +44,10 @@ const complaintSchema = new mongoose.Schema(
             type:String , 
             required : [true , "State is Required"]
         },
+        pincode:{
+            type:String , 
+            default:""
+        },
         department :{
             type :String , 
             required : [true , "Department is Required"]
@@ -56,7 +60,7 @@ const complaintSchema = new mongoose.Schema(
             type:String , 
             required : [true , "Description is Required"]
         },
-        complaintImage:{
+        imageFile:{
             type : String , 
             required :[true , "Post Your Complaint Photo"]
         },

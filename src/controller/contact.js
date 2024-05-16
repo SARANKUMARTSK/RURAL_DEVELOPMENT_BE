@@ -17,6 +17,20 @@ const getAllContacts = async(req,res)=>{
 
 }
 
+const getContactById = async(req,res)=>{
+    try {
+        let contact = await ContactModel.findOne({_id:req.params.id})
+        res.status(200).send({
+            message:"Contact Data Fetched Successfully", 
+            contact
+        })
+    } catch (error) {
+        res.status(500).send({
+            message:error.message||"Internal Server Error"
+        })
+    }
+}
+
 const createContact = async(req,res)=>{
     try {
         let contact = await ContactModel.create(req.body)
@@ -65,5 +79,6 @@ export default {
     getAllContacts,
     createContact,
     editContact,
-    deleteContact
+    deleteContact,
+    getContactById
 }

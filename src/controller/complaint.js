@@ -23,9 +23,9 @@ const getAllComplaints = async(req,res)=>{
     }
 }
 
-const getComplaintByid = async(req,res)=>{
+const getComplaintByReferenceLink = async(req,res)=>{
     try {
-        let complaint = await ComplaintModel.findOne({_id:req.params.id})
+        let complaint = await ComplaintModel.findOne({referenceLink:req.params.referenceLink})
         res.status(200).send({
             message:"Complaint Data Fetched Successfully",
             complaint
@@ -121,7 +121,7 @@ const sendMail = async (complaint) => {
             html: `<div>
                 <h1>Please Save This Link to Track Your Complaint</h1>
                 <p>${complaint.referenceLink}</p>
-                <a href="https://effervescent-banoffee-bf65cb.netlify.app/track-complaint/${complaint.referenceLink}">Track Complaint</a>
+                <a href="http://localhost:5173/track-complaint/${complaint.referenceLink}">Track Complaint</a>
             </div>`,
         };
 
@@ -132,39 +132,51 @@ const sendMail = async (complaint) => {
     }
 };
 
-const editComplaint = async(req,res)=>{
+const editComplaint = async (req, res) => {
     try {
-        let complaint = await ComplaintModel.findOne({_id:req.params.id})
+        let complaint = await ComplaintModel.findOne({ _id: req.params.id });
+
         if(complaint){
-            upload.single('imagefile')(req,res,async (err)=>{
-                if (err) {
-                    if (err instanceof multer.MulterError) {
-                      return res.status(500).send({ message: 'Multer error occurred' });
-                    } else {
-                      return res.status(500).send({ message: 'Unknown error occurred' });
-                    }
-                  }
-            })
-            if(req.file){
-                updateData.imageFile = req.file.filename;
-            }
-            let data = req.body
-             let edited = await ComplaintModel.findByIdAndUpdate({_id:req.params.id},data,{new:true})
-             res.status(200).send({
-                message:"Complaint Edited Successfully",
-                edited
-             })
+            upload.single('imageFile')(req,res,async function(err){
+                if(err instanceof multer.MulterError){
+                    return res.status(500).send({message:"Multer Error Occured"})
+                }else if(err){
+                    return res.status(500).send({ message: 'Unknown error occurred' });
+                }
+            
+           
+            let complaint = await ComplaintModel.findByIdAndUpdate({_id:req.params.id},{
+                userName:req.body.userName,
+                userEmail:req.body.userEmail,
+                userPhoneNumber:req.body.userPhoneNumber , 
+                userId:req.body.userId , 
+                locality:req.body.locality, 
+                city:req.body.city , 
+                district:req.body.district , 
+                state:req.body.state,
+                department:req.body.department, 
+                title:req.body.title, 
+                description:req.body.description , 
+                imageFile :req.file.filename
+            });
+           
+            res.status(201).send({
+                message: "Complaint Edited Successfully",
+                complaint
+            });})
+        
         }else{
             res.status(404).send({
-                message:"Error While Editing Complaint"
+                message:"Opps...Only Registered User Can Create Complaint"
             })
         }
+        
     } catch (error) {
         res.status(500).send({
-            message:error.message||"Internal Server Error"
-        })
+            message: error.message || "Internal Server Error"
+        });
     }
-}
+};
 
 const deleteComplaint = async(req,res)=>{
     try {
@@ -180,11 +192,27 @@ const deleteComplaint = async(req,res)=>{
     }
 }
 
+const getComplaintById = async(req,res)=>{
+    try {
+        let complaint = await ComplaintModel.findOne({_id:req.params.id})
+        res.status(200).send({
+            message:"Complaint Data Fetched Successfully", 
+            complaint
+        })
+    } catch (error) {
+        res.status(500).send({
+            message:error.message||"Internal Server Error"
+        })
+    }
+}
+
+
 
 export default {
     getAllComplaints,
-    getComplaintByid,
+    getComplaintByReferenceLink,
     createComplaint,
     editComplaint,
-    deleteComplaint
+    deleteComplaint,
+    getComplaintById
 }

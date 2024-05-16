@@ -3,6 +3,7 @@ import ContactController from '../controller/contact.js'
 const router = express.Router()
 
 router.get('/',ContactController.getAllContacts)
+router.get('/:id',ContactController.getContactById)
 router.post('/',ContactController.createContact)
 router.put('/:id',ContactController.editContact)
 router.delete('/:id',ContactController.deleteContact)

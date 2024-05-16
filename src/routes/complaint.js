@@ -4,7 +4,8 @@ const router = express.Router()
 
 
 router.get('/',ComplaintController.getAllComplaints)
-router.get('/:id',ComplaintController.getComplaintByid)
+router.get('/:referenceLink',ComplaintController.getComplaintByReferenceLink)
+router.get('/byId/:id',ComplaintController.getComplaintById)
 router.post('/:id',ComplaintController.createComplaint)
 router.put('/:id',ComplaintController.editComplaint)
 router.delete('/:id',ComplaintController.deleteComplaint)

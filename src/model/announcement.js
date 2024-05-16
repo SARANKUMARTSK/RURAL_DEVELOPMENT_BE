@@ -11,7 +11,7 @@ const announceMentSchema = new mongoose.Schema(
             type:String , 
             rquired : [true , "To Address is Required"]
         }, 
-        topic:{
+        title:{
             type:String , 
             required:[true , "Topic is Required"]
         },
@@ -26,6 +26,10 @@ const announceMentSchema = new mongoose.Schema(
         description:{
             type:String , 
             required : [true , "Description is Required "]
+        },
+        imageFile:{
+            type:String ,
+            required:[true, "Image File Is Required"]
         }
     },
     {

@@ -30,11 +30,15 @@ const productSchema = new mongoose.Schema(
             type:String , 
             required :[true , "Quantity is Required"]
         },
+        unit : {
+            type:String , 
+            required :[true , "Unit is Required"]
+        },
         price:{
             type:String , 
             required :[true , "Price is Required"]
         },
-        productImage : {
+        imageFile : {
             type:String, 
             required :[true , "Price is Required"]
         },

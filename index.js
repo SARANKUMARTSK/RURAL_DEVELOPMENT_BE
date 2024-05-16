@@ -8,6 +8,7 @@ import DonationRoutes from './src/routes/donation.js'
 import ProductRoutes from './src/routes/product.js'
 import WasteRoutes from './src/routes/waste.js'
 import AnnouncementRoutes from './src/routes/announcement.js'
+import GalleryRoutes from './src/routes/gallery.js'
 
 dotenv.config()
 const app = express();
@@ -29,6 +30,7 @@ app.use("/donations",DonationRoutes)
 app.use("/products" , ProductRoutes)
 app.use("/waste", WasteRoutes)
 app.use("/announcement", AnnouncementRoutes)
+app.use("/gallery", GalleryRoutes)
 
 
 

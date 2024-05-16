@@ -1,5 +1,14 @@
-import express from 'express'
 import mongoose from './index.js'
+
+function generateRandomString(length) {
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var randomString = '';
+    for (var i = 0; i < length; i++) {
+        var randomIndex = Math.floor(Math.random() * characters.length);
+        randomString += characters.charAt(randomIndex);
+    }
+    return randomString;
+}
 
 const wasteSchema = new mongoose.Schema(
     {
@@ -23,6 +32,10 @@ const wasteSchema = new mongoose.Schema(
             quantity:{
                 type : String , 
                 required : [true , "Waste Qty is Required "]
+            },
+            description:{
+                type : String , 
+                required : [true , "Description is Required "]
             },
             locality:{
                 type:String ,
@@ -52,6 +65,10 @@ const wasteSchema = new mongoose.Schema(
         assignedTo : {
             type:String , 
             default : "Not-Assigned"
+        },
+        referenceLink :{
+            type:String , 
+            default : generateRandomString(25)
         }
     },
     {

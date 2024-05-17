@@ -1,4 +1,5 @@
 import AnnouncementModel from '../model/announcement.js'
+import multer from 'multer'
 
 const getAllAnnouncemet = async(req,res)=>{
     try {
@@ -28,14 +29,39 @@ const getAnnouncementById = async(req,res)=>{
         }) 
     }
 }
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+      cb(null, './src/images');
+    },
+    filename: function(req, file, cb) {
+      cb(null, `${Date.now()}_${file.originalname}`);
+    }
+  });
 
+
+  const upload = multer({ storage: storage });
 const createAnnouncement = async(req,res)=>{
     try {
-        let announcement = await AnnouncementModel.create(req.body)
+        upload.single('imageFile')(req,res,async function(err){
+            if(err instanceof multer.MulterError){
+                return res.status(500).send({message:"Multer Error Occured"})
+            }else if(err){
+                return res.status(500).send({ message: 'Unknown error occurred' });
+            }
+       
+        let announcement = await AnnouncementModel.create({
+            from:req.body.from,
+            to:req.body.to,
+            title:req.body.title , 
+            endingDate:req.body.endingDate , 
+            description:req.body.description, 
+            imageFile :req.file.filename
+        });
+
         res.status(201).send({
-            message:"Announcement Successfully Created", 
+            message: "Announcement Successfully",
             announcement
-        })
+        });})
     } catch (error) {
         res.status(500).send({
             message:error.message||"Internal Server Error"

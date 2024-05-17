@@ -1,5 +1,9 @@
-import { get } from 'mongoose'
 import WasteModel from '../model/waste.js'
+import UserModel from '../model/user.js'
+import multer from 'multer';
+import dotenv from 'dotenv';    
+dotenv.config();
+import nodemailer from 'nodemailer'
 
 
 const getAllWaste = async(req,res)=>{
@@ -31,11 +35,11 @@ const getWasteById = async(req,res)=>{
     }
 }
 
-const createWaste = async(req,res)=>{
+const getWasteByReferenceLink = async(req,res)=>{
     try {
-        let waste = await WasteModel.create(req.body);
-        res.status(201).send({
-            message:"Waste data created successfully",
+        let waste = await WasteModel.findOne({referenceLink:req.params.referenceLink})
+        res.status(200).send({
+            message:"Waste Data Fetched Successfully",
             waste
         })
     } catch (error) {
@@ -45,14 +49,142 @@ const createWaste = async(req,res)=>{
     }
 }
 
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+      cb(null, './src/images');
+    },
+    filename: function(req, file, cb) {
+      cb(null, `${Date.now()}_${file.originalname}`);
+    }
+  });
+
+
+  const upload = multer({ storage: storage });
+
+
+  const createWaste = async (req, res) => {
+    try {
+        let user = await UserModel.findById(req.params.userId);
+        if (!user) {
+            return res.status(404).send({ message: "Only registered users can create a complaint." });
+        }
+
+        upload.single('imageFile')(req, res, async function (err) {
+            if (err instanceof multer.MulterError) {
+                return res.status(500).send({ message: "Multer error occurred." });
+            } else if (err) {
+                return res.status(500).send({ message: "Unknown error occurred." });
+            }
+          
+            try {
+                let waste = await WasteModel.create({
+                    userName: req.body.userName,
+                    email: req.body.email,
+                    phoneNumber: req.body.phoneNumber,
+                    userId: req.body.userId,
+                    type: req.body.type,
+                    quantity: req.body.quantity,
+                    description: req.body.description, 
+                    locality: req.body.locality,
+                    city: req.body.city,
+                    district: req.body.district,
+                    imageFile: req.file.filename
+                });
+
+                await sendMail(waste);
+
+                res.status(201).send({
+                    message: "Waste query registered successfully.",
+                    waste
+                });
+            } catch (createError) {
+                res.status(500).send({ message: createError.message || "Internal server error." });
+            }
+        });
+    } catch (error) {
+        res.status(500).send({ message: error.message || "Internal server error." });
+    }
+};
+
+
+const sendMail = async (waste) => {
+    try {
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            host: "smtp.gmail.com",
+            port: 587,
+            secure: false,
+            auth: {
+                user: process.env.USER_MAIL,
+                pass: process.env.MAIL_PASS,
+            },
+        });
+
+        const mailOptions = {
+            from: {
+                name: "RURAL_DEVELOPMENT_APP",
+                address: process.env.USER_MAIL
+            },
+            to: [waste.email],
+            subject: "Complaint Reference Link",
+            html: `<div>
+                <h1>Please Save This Link to Track Your Waste Query</h1>
+                <p>${waste.referenceLink}</p>
+                <a href="effervescent-banoffee-bf65cb.netlify.app/track-waste/${waste.referenceLink}">Track Complaint</a>
+            </div>`,
+        };
+
+        await transporter.sendMail(mailOptions);
+        console.log("Email has been sent successfully");
+    } catch (error) {
+        console.error(error.message || error);
+    }
+};
+
+
+
+
 const editWasteDetail = async(req,res)=>{
     try {
-        let data = req.body
-        let waste = await WasteModel.findByIdAndUpdate({_id:req.params.id},data,{new:true})
-        res.status(200).send({
-            message:"Waste data edited successfully",
-            waste
-        })
+        let waste = await WasteModel.findOne({ _id: req.params.id });
+
+        if(waste){
+            upload.single('imageFile')(req, res, async function (err) {
+                if (err instanceof multer.MulterError) {
+                    return res.status(500).send({ message: "Multer error occurred." });
+                } else if (err) {
+                    return res.status(500).send({ message: "Unknown error occurred." });
+                }
+              console.log(req.file);
+                try {
+                    let waste = await WasteModel.findByIdAndUpdate({_id:req.params.id},{
+                        userName: req.body.userName,
+                        email: req.body.email,
+                        phoneNumber: req.body.phoneNumber,
+                        type: req.body.type,
+                        quantity: req.body.quantity,
+                        description: req.body.description, 
+                        locality: req.body.locality,
+                        city: req.body.city,
+                        district: req.body.district,
+                        imageFile: req.file.filename
+                    });
+
+                    res.status(200).send({
+                        message: "Waste query Edited successfully.",
+                        waste
+                    });
+                } catch (createError) {
+                    res.status(500).send({ message: createError.message || "Internal server error." });
+                }
+            });
+        
+        }else{
+            res.status(404).send({
+                message:"Opps...Only Registered User Can Create Waste Query"
+            })
+        }
+        
     } catch (error) {
         res.status(500).send({
             message:error.message||"Internal Server Error"
@@ -79,5 +211,6 @@ export default {
     getWasteById,
     createWaste,
     editWasteDetail,
-    deleteWasteDetail
+    deleteWasteDetail,
+    getWasteByReferenceLink
 }

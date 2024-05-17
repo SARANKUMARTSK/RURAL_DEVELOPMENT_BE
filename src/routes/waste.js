@@ -4,7 +4,8 @@ import WasteController from '../controller/waste.js'
 
 router.get('/',WasteController.getAllWaste)
 router.get('/:id',WasteController.getWasteById)
-router.post('/',WasteController.createWaste)
+router.get('/track/:referenceLink',WasteController.getWasteByReferenceLink)
+router.post('/:userId',WasteController.createWaste)
 router.put('/:id',WasteController.editWasteDetail)
 router.delete('/:id',WasteController.deleteWasteDetail)
 

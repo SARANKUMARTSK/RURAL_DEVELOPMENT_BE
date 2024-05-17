@@ -7,7 +7,6 @@ import multer from 'multer'
 
 
 
-
 const getAllComplaints = async(req,res)=>{
     try {
         let complaint = await ComplaintModel.find({})
@@ -69,7 +68,7 @@ const createComplaint = async (req, res) => {
                 userId:req.body.userId , 
                 locality:req.body.locality, 
                 city:req.body.city , 
-                district:req.body.district , 
+                district:req.body.district ,  
                 state:req.body.state,
                 department:req.body.department, 
                 title:req.body.title, 
@@ -116,12 +115,12 @@ const sendMail = async (complaint) => {
                 name: "RURAL_DEVELOPMENT_APP",
                 address: process.env.USER_MAIL
             },
-            to: ["sarankumartsk72726@gmail.com"],
+            to: [complaint.userEmail],
             subject: "Complaint Reference Link",
             html: `<div>
                 <h1>Please Save This Link to Track Your Complaint</h1>
                 <p>${complaint.referenceLink}</p>
-                <a href="http://localhost:5173/track-complaint/${complaint.referenceLink}">Track Complaint</a>
+                <a href="effervescent-banoffee-bf65cb.netlify.app/track-complaint/${complaint.referenceLink}">Track Complaint</a>
             </div>`,
         };
 

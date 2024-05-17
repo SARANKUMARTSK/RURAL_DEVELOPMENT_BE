@@ -24,51 +24,50 @@ const wasteSchema = new mongoose.Schema(
             type : String , 
             required : [true , "Phone Number is Required"]
         },
-        wasteDetails:{
-            type:{
-                type:String , 
-                required:[true , "Waste Type is Required"]
-            },
-            quantity:{
-                type : String , 
-                required : [true , "Waste Qty is Required "]
-            },
-            description:{
-                type : String , 
-                required : [true , "Description is Required "]
-            },
-            locality:{
-                type:String ,
-                required : [true , "Locality is Required"]
-            },
-            city : {
-                type:String , 
-                required:[true , "City is Required"]
-            },
-            district : {
-                type:String , 
-                required :[true , "District is Required"]
-            },
-            imageUrl : {
-                type:String ,
-                required :[true , "Image Url is Required"]
-            }
+        type:{
+            type:String , 
+            required:[true , "Waste Type is Required"]
         },
+        quantity:{
+            type : String , 
+            required : [true , "Waste Qty is Required "]
+        },
+        description:{
+            type : String , 
+            required : [true , "Description is Required "]
+        },
+        locality:{
+            type:String ,
+            required : [true , "Locality is Required"]
+        },
+        city : {
+            type:String , 
+            required:[true , "City is Required"]
+        },
+        district : {
+            type:String , 
+            required :[true , "District is Required"]
+        },
+        imageFile : {
+            type:String ,
+            required :[true , "Image Url is Required"]
+        },
+      
         createdAt : {
             type:Date , 
             default : new Date()
         },
-        status:{
+        status:{ 
             type:String , 
             default : "Registered"
-        },
+        }, 
         assignedTo : {
             type:String , 
             default : "Not-Assigned"
         },
         referenceLink :{
             type:String , 
-            default : generateRandomString(25)
+            default : generateRandomString(25) 
         }
     },
     {

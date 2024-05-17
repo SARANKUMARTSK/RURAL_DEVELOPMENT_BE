@@ -31,9 +31,9 @@ const donationSchema = mongoose.Schema(
             type:String ,
             required:[true , "Description is Required"]
         },
-        quantity : {
+        membersCount : {
             type:String , 
-            default :"Not-Mentioned"
+            default :""
         },
         locality:{
             type:String , 
@@ -46,10 +46,6 @@ const donationSchema = mongoose.Schema(
         district:{
             type:String , 
             required:[true , "District is Required"]
-        },
-        state:{
-            type:String , 
-            required:[true , "State is Required"]
         },
         status:{
             type:Boolean , 

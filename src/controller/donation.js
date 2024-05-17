@@ -1,4 +1,5 @@
 import DonationModel from '../model/donation.js'
+import multer from 'multer'
 
 const getAllDonations = async(req,res)=>{
     try {
@@ -28,13 +29,40 @@ const getDonationById = async(req,res)=>{
     }
 }
 
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+      cb(null, './src/images');
+    },
+    filename: function(req, file, cb) {
+      cb(null, `${Date.now()}_${file.originalname}`);
+    }
+  });
+
+
+  const upload = multer({ storage: storage });
+
 const createDonation = async(req,res)=>{
     try {
-        let donation = await DonationModel.create(req.body);
+        upload.single('imageFile')(req,res,async function(err){
+            if(err instanceof multer.MulterError){
+                return res.status(500).send({message:"Multer Error Occured"})
+            }else if(err){
+                return res.status(500).send({ message: 'Unknown error occurred' });
+            }
+       
+        let announcement = await DonationModel.create({
+            from:req.body.from,
+            to:req.body.to,
+            title:req.body.title , 
+            endingDate:req.body.endingDate , 
+            description:req.body.description, 
+            imageFile :req.file.filename
+        });
+
         res.status(201).send({
-            message:"Donation Submitted Successfully", 
-            donation
-        })
+            message: "Complaint Registered Successfully",
+            announcement
+        });})
     } catch (error) {
         res.status(500).send({
             message:error.message||"Internal Server Error"

@@ -4,6 +4,7 @@ import ProductController from '../controller/product.js'
 
 router.get('/',ProductController.getAllProducts)
 router.get('/:id',ProductController.getProductById)
+router.get('/city',ProductController.getProductByCity)
 router.post('/',ProductController.createProduct)
 router.put('/:id',ProductController.editProduct)
 router.delete('/:id',ProductController.deleteProduct)

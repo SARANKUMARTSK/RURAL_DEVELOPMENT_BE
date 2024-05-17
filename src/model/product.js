@@ -1,6 +1,12 @@
 import mongoose from "./index.js";
 
 
+const validateEmail = (email) => {
+    return email.match(
+        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+};
+
 const productSchema = new mongoose.Schema(
     {
         name:{
@@ -13,6 +19,10 @@ const productSchema = new mongoose.Schema(
             validate: {
                 validator: (value) => validateEmail(value)
             }
+        },
+        userId :{
+            type:String,
+            required:[true,"User Id is Required"]
         },
         phoneNumber :{
             type:String , 
@@ -59,8 +69,8 @@ const productSchema = new mongoose.Schema(
             required:[true , "State is Required"]
         },
         status:{
-            type:Boolean , 
-            default : true
+            type:String , 
+            default : "Available"
         },
         createdAt : {
             type:Date , 

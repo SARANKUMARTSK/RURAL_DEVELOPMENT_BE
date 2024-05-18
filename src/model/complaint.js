@@ -30,7 +30,7 @@ const complaintSchema = new mongoose.Schema(
         },
         locality : {
             type : String , 
-            required :[true , "Panjayath Name is Required"]
+            required :[true , "Panjayath Name is Required"] 
         },
         city : {
             type:String , 

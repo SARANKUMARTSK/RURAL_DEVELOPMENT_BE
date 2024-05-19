@@ -7,7 +7,7 @@ const AdminGaurd = async(req,res,next)=>{
         if(token)
         {
             let payload = await Auth.decodeToken(token)
-            if(payload.role === 'admin')
+            if(payload.role === 'Admin')
                 next()
             else    
                 res.status(402).send({message:"Permission Denied"})

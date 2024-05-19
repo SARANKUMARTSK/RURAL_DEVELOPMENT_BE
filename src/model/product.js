@@ -50,7 +50,7 @@ const productSchema = new mongoose.Schema(
         },
         imageFile : {
             type:String, 
-            required :[true , "Price is Required"]
+            default:""
         },
         locality:{
             type:String , 

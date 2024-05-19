@@ -62,7 +62,7 @@ const complaintSchema = new mongoose.Schema(
         },
         imageFile:{
             type : String , 
-            required :[true , "Post Your Complaint Photo"]
+            default:""
         },
         createdAt : {
             type:Date , 

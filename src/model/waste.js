@@ -50,7 +50,7 @@ const wasteSchema = new mongoose.Schema(
         },
         imageFile : {
             type:String ,
-            required :[true , "Image Url is Required"]
+            default:""
         },
       
         createdAt : {

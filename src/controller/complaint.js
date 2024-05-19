@@ -4,6 +4,7 @@ import nodemailer from 'nodemailer'
 import dotenv from 'dotenv'
 dotenv.config()
 import multer from 'multer'
+import Auth from '../utils/auth.js'
 
 
 
@@ -109,6 +110,8 @@ const sendMail = async (complaint) => {
                 pass: process.env.MAIL_PASS,
             },
         });
+
+       
 
         const mailOptions = {
             from: {

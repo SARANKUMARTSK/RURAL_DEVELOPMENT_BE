@@ -166,6 +166,8 @@ const editWasteDetail = async(req,res)=>{
                         description: req.body.description, 
                         locality: req.body.locality,
                         city: req.body.city,
+                        status: req.body.status,
+                        assignedTo: req.body.assignedTo,
                         district: req.body.district,
                         imageFile: req.file.filename
                     });

@@ -155,6 +155,7 @@ const editComplaint = async (req, res) => {
                 userId:req.body.userId , 
                 locality:req.body.locality, 
                 city:req.body.city , 
+                pincode:req.body.pincode,
                 district:req.body.district , 
                 state:req.body.state,
                 status:req.body.status,

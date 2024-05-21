@@ -68,6 +68,7 @@ const createComplaint = async (req, res) => {
                 userPhoneNumber:req.body.userPhoneNumber , 
                 userId:req.body.userId , 
                 locality:req.body.locality, 
+                pincode:req.body.pincode,
                 city:req.body.city , 
                 district:req.body.district ,  
                 state:req.body.state,

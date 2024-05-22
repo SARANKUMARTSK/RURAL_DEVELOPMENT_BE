@@ -76,6 +76,7 @@ const deleteUserById = async(req,res)=>{
 const login = async(req,res)=>{
     try {
         let user = await UserModel.findOne({email:req.body.email})
+       if(user.status=="Active"){
         if(user){
             if(await Auth.hashCompare(req.body.password,user.password)){
                 let token = await Auth.createToken({
@@ -102,6 +103,11 @@ const login = async(req,res)=>{
                 message: `User with ${req.body.email} does not exist`
             })
         }
+       }else{
+        res.status(404).send({
+            message:"You are Blocked By Admin. Contact Admin For Other Details"
+        })
+       }
         
     } catch (error) {
         res.status(500).send({

@@ -89,6 +89,10 @@ const userSchema = new mongoose.Schema(
         products:{
             type:Array , 
             default : []
+        },
+        status:{
+            type:String , 
+            default:"Active"
         }
     },
     {

@@ -176,33 +176,34 @@ const forgotMail = async (req, res) => {
     }
 };
 
-const editUserById = async(req,res)=>{
+const editUserById = async (req, res) => {
     try {
         let data = {
-            name:req.body.name,
-            email:req.body.email , 
-            phoneNumber : req.body.phoneNumber,
-            status:req.body.status,
-            "address.doorNo":req.body.doorNo,
-            "address.street":req.body.street , 
-            "address.locality" : req.body.locality , 
-            "address.city" : req.body.city , 
-            "address.district":req.body.city , 
-            "address.state":req.body.state , 
-            "address.pincode" : req.body.pincode
-        }
-        let user = await UserModel.findByIdAndUpdate({_id:req.params.id},data,{new:true})
+            name: req.body.name,
+            email: req.body.email,
+            phoneNumber: req.body.phoneNumber,
+            status: req.body.status,
+            address: {
+                doorNo: req.body.doorNo,
+                street: req.body.street,
+                locality: req.body.locality,
+                city: req.body.city,
+                district: req.body.district,
+                state: req.body.state,
+                pincode: req.body.pincode
+            }
+        };
+        let user = await UserModel.findByIdAndUpdate({ _id: req.params.id }, data, { new: true });
         res.status(200).send({
-            message:"User Edited Successfully",
+            message: "User Edited Successfully",
             user
-        })
-        
+        });
     } catch (error) {
         res.status(500).send({
-            message:error.message||"Internal Server Error"
-        })
+            message: error.message || "Internal Server Error"
+        });
     }
-}
+};
 
 const resetPassword = async(req,res)=>{
     try {

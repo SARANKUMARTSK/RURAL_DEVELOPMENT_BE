@@ -155,7 +155,7 @@ const editWasteDetail = async(req,res)=>{
                 } else if (err) {
                     return res.status(500).send({ message: "Unknown error occurred." });
                 }
-              console.log(req.file);
+              
                 try {
                     let waste = await WasteModel.findByIdAndUpdate({_id:req.params.id},{
                         userName: req.body.userName,

@@ -183,15 +183,13 @@ const editUserById = async(req,res)=>{
             email:req.body.email , 
             phoneNumber : req.body.phoneNumber,
             status:req.body.status,
-            address:{
-                doorNo:req.body.doorNo,
-                street:req.body.street , 
-                locality : req.body.locality , 
-                city : req.body.city , 
-                district:req.body.city , 
-                state:req.body.state , 
-                pincode : req.body.pincode
-            }
+            doorNo:req.body.doorNo,
+            street:req.body.street , 
+            locality : req.body.locality , 
+            city : req.body.city , 
+            district:req.body.city , 
+            state:req.body.state , 
+            pincode : req.body.pincode
         }
         let user = await UserModel.findByIdAndUpdate({_id:req.params.id},data,{new:true})
         res.status(200).send({

@@ -178,7 +178,21 @@ const forgotMail = async (req, res) => {
 
 const editUserById = async(req,res)=>{
     try {
-        let data = req.body
+        let data = {
+            name:req.body.name,
+            email:req.body.email , 
+            phoneNumber : req.body.phoneNumber,
+            status:req.body.status,
+            address:{
+                doorNo:req.body.doorNo,
+                street:req.body.street , 
+                locality : req.body.locality , 
+                city : req.body.city , 
+                district:req.body.city , 
+                state:req.body.state , 
+                pincode : req.body.pincode
+            }
+        }
         let user = await UserModel.findByIdAndUpdate({_id:req.params.id},data,{new:true})
         res.status(200).send({
             message:"User Edited Successfully",

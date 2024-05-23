@@ -96,7 +96,7 @@ const createComplaint = async (req, res) => {
         res.status(500).send({
             message: error.message || "Internal Server Error"
         });
-    }
+    } 
 };
 
 const sendMail = async (complaint) => {

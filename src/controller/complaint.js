@@ -163,7 +163,7 @@ const editComplaint = async (req, res) => {
                 department:req.body.department, 
                 title:req.body.title, 
                 description:req.body.description , 
-                imageFile :req.file.filename||req.body.existingImage
+                imageFile :req.file.filename
             });
            
             res.status(201).send({

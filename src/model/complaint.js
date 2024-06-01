@@ -76,6 +76,23 @@ const complaintSchema = new mongoose.Schema(
             type:String , 
             default : "Not-Assigned"
         },
+        assignedContact:{
+            type:String ,
+            default:""
+        },
+        assignedEmail:{
+            type:String ,
+            default:""
+        },
+        assignedDate:{
+            type:Date, 
+        },
+        expectedDate:{
+            type:Date,
+        },
+        completionDate:{
+            type:Date,
+        },
         referenceLink :{
             type:String , 
             default : generateRandomString(25)

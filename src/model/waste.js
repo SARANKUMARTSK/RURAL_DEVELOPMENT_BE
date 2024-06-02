@@ -65,9 +65,30 @@ const wasteSchema = new mongoose.Schema(
             type:String , 
             default : "Not-Assigned"
         },
+        assignedContact:{
+            type:String , 
+            default : "Not-Assigned"
+        },
+        assignedEmail:{
+            type:String , 
+            default : "Not-Assigned"
+        },
+        assignedDate:{
+            type:Date 
+        },
+        estimateDate:{
+            type:Date 
+        },
+        completedDate:{
+            type:Date 
+        },
         referenceLink :{
             type:String , 
             default : generateRandomString(25) 
+        },
+        userId :{
+            type:String , 
+            default:""
         }
     },
     {

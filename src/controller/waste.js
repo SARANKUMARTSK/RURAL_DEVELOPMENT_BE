@@ -126,11 +126,46 @@ const sendMail = async (waste) => {
                 address: process.env.USER_MAIL
             },
             to: [waste.email],
-            subject: "Complaint Reference Link",
+            subject: "Waste Query Reference Link",
             html: `<div>
                 <h1>Please Save This Link to Track Your Waste Query</h1>
                 <p>${waste.referenceLink}</p>
-                <a href="effervescent-banoffee-bf65cb.netlify.app/track-waste/${waste.referenceLink}">Track Complaint</a>
+                <a href="effervescent-banoffee-bf65cb.netlify.app/your-waste/${waste.userId}">Track Complaint</a>
+            </div>`,
+        };
+
+        await transporter.sendMail(mailOptions);
+        console.log("Email has been sent successfully");
+    } catch (error) {
+        console.error(error.message || error);
+    }
+};
+
+const sendMailForStatus = async (updatedQuery) => {
+    try {
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            host: "smtp.gmail.com",
+            port: 587,
+            secure: false,
+            auth: {
+                user: process.env.USER_MAIL,
+                pass: process.env.MAIL_PASS,
+            },
+        });
+
+       
+
+        const mailOptions = {
+            from: {
+                name: "RURAL_DEVELOPMENT_APP",
+                address: process.env.USER_MAIL
+            },
+            to: [updatedQuery.email],
+            subject: "Complaint Status Update",
+            html: `<div>
+                <h1>Your Query Status has been Updated .  </h1>
+                <a href="effervescent-banoffee-bf65cb.netlify.app/your-queries/${updatedQuery.userId}">Track Complaint</a>
             </div>`,
         };
 
@@ -155,9 +190,10 @@ const editWasteDetail = async(req,res)=>{
                 } else if (err) {
                     return res.status(500).send({ message: "Unknown error occurred." });
                 }
+                let imageFileName = req.file ? req.file.filename : waste.imageFile || "";
               
                 try {
-                    let waste = await WasteModel.findByIdAndUpdate({_id:req.params.id},{
+                    let updatedWaste = await WasteModel.findByIdAndUpdate({_id:req.params.id},{
                         userName: req.body.userName,
                         email: req.body.email,
                         phoneNumber: req.body.phoneNumber,
@@ -168,13 +204,22 @@ const editWasteDetail = async(req,res)=>{
                         city: req.body.city,
                         status: req.body.status,
                         assignedTo: req.body.assignedTo,
+                        assignedContact:req.body.assignedContact,
+                        assignedEmail:req.body.assignedEmail,
+                        assignedDate:req.body.assignedDate,
+                        estimateDate:req.body.estimateDate,
+                        completionDate:req.body.completionDate,
                         district: req.body.district,
-                        imageFile: req.file.filename
+                        imageFile: imageFileName
                     });
+
+                    if(req.body.status){
+                        sendMailForStatus(updatedWaste)
+                    }
 
                     res.status(200).send({
                         message: "Waste query Edited successfully.",
-                        waste
+                        updatedWaste
                     });
                 } catch (createError) {
                     res.status(500).send({ message: createError.message || "Internal server error." });

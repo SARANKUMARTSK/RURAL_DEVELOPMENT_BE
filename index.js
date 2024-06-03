@@ -8,6 +8,7 @@ import ProductRoutes from './src/routes/product.js'
 import WasteRoutes from './src/routes/waste.js'
 import AnnouncementRoutes from './src/routes/announcement.js'
 import GalleryRoutes from './src/routes/gallery.js'
+import CustomerCareRoutes from './src/routes/customerCare.js'
 
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -46,8 +47,7 @@ app.use("/products" , ProductRoutes)
 app.use("/waste", WasteRoutes)
 app.use("/announcement", AnnouncementRoutes)
 app.use("/gallery", GalleryRoutes)
-
-
+app.use('/customerCare',CustomerCareRoutes)
 
 
 app.listen(process.env.PORT,()=>console.log(`App is Running in ${process.env.PORT}`))

@@ -34,7 +34,7 @@ app.get('/images/:filename',async(req,res)=>{
     const filename = req.params.filename;
     const filepath = path.join(__dirname, 'src', 'images', filename);
     res.sendFile(filepath);
-   } catch (error) {
+   } catch (error) { 
     res.status(500).send({
         message: error.message || "Internal server error"
     });

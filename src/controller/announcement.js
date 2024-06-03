@@ -40,48 +40,107 @@ const storage = multer.diskStorage({
 
 
   const upload = multer({ storage: storage });
-const createAnnouncement = async(req,res)=>{
+  const createAnnouncement = async (req, res) => {
     try {
-        upload.single('imageFile')(req,res,async function(err){
-            if(err instanceof multer.MulterError){
-                return res.status(500).send({message:"Multer Error Occured"})
-            }else if(err){
-                return res.status(500).send({ message: 'Unknown error occurred' });
-            }
-       
-        let announcement = await AnnouncementModel.create({
-            from:req.body.from,
-            to:req.body.to,
-            title:req.body.title , 
-            endingDate:req.body.endingDate , 
-            description:req.body.description, 
-            imageFile :req.file.filename
-        });
-
+      upload.single('imageFile')(req, res, async function (err) {
+        if (err instanceof multer.MulterError) {
+          return res.status(500).send({ message: "Multer Error Occurred" });
+        } else if (err) {
+          return res.status(500).send({ message: 'Unknown error occurred' });
+        }
+  
+        const {
+          department, concernDistrict, title, schemeNo, sponcer, pattern,
+          beneficiaries, type, income, age, community, step, description, endingDate
+        } = req.body;
+        let imageFileName = req.file ? req.file.filename : complaint.imageFile || "";
+  
+        let data = {
+          department,
+          concernDistrict,
+          schemeDetails: {
+            title,
+            schemeNo,
+            sponcer,
+            pattern,
+          },
+          beneficiaries,
+          type,
+          eligibility: {
+            income,
+            age,
+            community,
+          },
+          step,
+          description,
+          endingDate,
+          imageFile: imageFileName
+        };
+  
+        let announcement = await AnnouncementModel.create(data);
+  
         res.status(201).send({
-            message: "Announcement Successfully",
-            announcement
-        });})
+          message: "Announcement Successfully Added",
+          announcement
+        });
+      });
     } catch (error) {
-        res.status(500).send({
-            message:error.message||"Internal Server Error"
-        }) 
+      res.status(500).send({
+        message: error.message || "Internal Server Error"
+      });
     }
-}
+  };
 
 const editAnnouncement = async(req,res)=>{
-    try {
-        let data = req.body
-        let announcement = await AnnouncementModel.findByIdAndUpdate({_id:req.params.id}, data, {new:true})
-        res.status(200).send({
-            message:"Announcement Data Edited Successfully",
-            announcement
-        })
-    } catch (error) {
-        res.status(500).send({
-            message:error.message||"Internal Server Error"
-        }) 
-    }
+  try {
+    let announcementData = await AnnouncementModel.findOne({_id:req.params.id})
+    upload.single('imageFile')(req, res, async function (err) {
+      if (err instanceof multer.MulterError) {
+        return res.status(500).send({ message: "Multer Error Occurred" });
+      } else if (err) {
+        return res.status(500).send({ message: 'Unknown error occurred' });
+      }
+
+      const {
+        department, concernDistrict, title, schemeNo, sponcer, pattern,
+        beneficiaries, type, income, age, community, step, description, endingDate
+      } = req.body;
+      let imageFileName = req.file ? req.file.filename : announcementData.imageFile || "";
+
+      let data = {
+        department,
+        concernDistrict,
+        schemeDetails: {
+          title,
+          schemeNo,
+          sponcer,
+          pattern,
+        },
+        beneficiaries,
+        type,
+        eligibility: {
+          income,
+          age,
+          community,
+        },
+        step,
+        description,
+        endingDate,
+        imageFile: imageFileName
+      };
+
+      let announcement = await AnnouncementModel.findByIdAndUpdate({_id:req.params.id},data);
+
+      res.status(200).send({
+        message: "Announcement Successfully Edited",
+        announcement
+      });
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: error.message || "Internal Server Error"
+    });
+  }
 }
 
 const deleteAnnouncement = async(req,res)=>{

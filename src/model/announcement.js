@@ -3,29 +3,68 @@ import mongoose from "./index.js";
 
 const announceMentSchema = new mongoose.Schema(
     {
-        from:{
-            type:String , 
-            required : [true , "From Address is Required"]
-        }, 
-        to:{
-            type:String , 
-            rquired : [true , "To Address is Required"]
-        }, 
-        title:{
-            type:String , 
-            required:[true , "Topic is Required"]
+        department:{
+            type:String, 
+            required:[true , "Department Name is Required"]
         },
-        createdAt : {
-            type:Date , 
-            default :new Date()
+        concernDistrict:{
+            type:String , 
+            default :"All"
         },
-        endingDate:{
-            type:Date , 
-            required :[true , "Ending Date id Required"]
+        schemeDetails:{
+            title:{
+                type:String , 
+                required:[true ,"Title is Required"]
+            },
+            schemeNo:{
+                type:String , 
+                default:""
+            },
+            sponcer:{
+                type:String , 
+                default:""
+            },
+            pattern:{
+                type:String , 
+                default:""
+            }
+        },
+        beneficiaries:{
+            type:String , 
+            default:""
+        },
+        type:{
+            type:String , 
+            default:""
+        },
+        eligibility:{
+            income:{
+                type:String , 
+                default:""
+            },
+            age:{
+                type:String , 
+                default:""
+            },
+            community:{
+                type:String , 
+                default:""
+            }
+        },
+        step:{
+            type:String , 
+            default:""
+        },
+        createdAt:{
+             type:Date ,
+             default:new Date()
         },
         description:{
             type:String , 
-            required : [true , "Description is Required "]
+            default:""
+        },
+        endingDate :{
+            type:Date 
         },
         imageFile:{
             type:String ,

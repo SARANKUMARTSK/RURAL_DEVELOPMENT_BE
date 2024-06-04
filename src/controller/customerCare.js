@@ -48,9 +48,6 @@ const createQuery = async(req,res)=>{
 
 const editStatus = async (req, res) => {
     try {
-        console.log('Request Params:', req.params);
-        console.log('Request Body:', req.body);
-
         const { status } = req.body;
         if (!status) {
             return res.status(400).send({

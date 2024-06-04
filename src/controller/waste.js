@@ -130,7 +130,7 @@ const sendMail = async (waste) => {
             html: `<div>
                 <h1>Please Save This Link to Track Your Waste Query</h1>
                 <p>${waste.referenceLink}</p>
-                <a href="effervescent-banoffee-bf65cb.netlify.app/your-waste/${waste.userId}">Track Complaint</a>
+                <a href="effervescent-banoffee-bf65cb.netlify.app/your-queries/${waste.userId}">Track Complaint</a>
             </div>`,
         };
 

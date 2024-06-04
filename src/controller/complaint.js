@@ -123,7 +123,7 @@ const sendMail = async (complaint) => {
             subject: "Complaint Registration",
             html: `<div>
                 <h1>Your Complaint has been successfully Resitered</h1>
-                <a href="effervescent-banoffee-bf65cb.netlify.app/your-complaint/${complaint.userId}">Track Complaint</a>
+                <a href="effervescent-banoffee-bf65cb.netlify.app/your-complaints/${complaint.userId}">Track Complaint</a>
             </div>`,
         };
 
@@ -158,7 +158,7 @@ const sendMailForStatus = async (updatedComplaint) => {
             subject: "Complaint Status Update",
             html: `<div>
                 <h1>Your Complaint Status has been Updated .  </h1>
-                <a href="effervescent-banoffee-bf65cb.netlify.app/your-complaint/${updatedComplaint.userId}">Track Complaint</a>
+                <a href="effervescent-banoffee-bf65cb.netlify.app/your-complaints/${updatedComplaint.userId}">Track Complaint</a>
             </div>`,
         };
 

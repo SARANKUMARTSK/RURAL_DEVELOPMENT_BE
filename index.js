@@ -4,7 +4,6 @@ import dotenv from 'dotenv'
 import UserRoutes from './src/routes/user.js'
 import ComplaintRoutes from './src/routes/complaint.js'
 import ContactRoutes from './src/routes/contact.js'
-import ProductRoutes from './src/routes/product.js'
 import WasteRoutes from './src/routes/waste.js'
 import AnnouncementRoutes from './src/routes/announcement.js'
 import GalleryRoutes from './src/routes/gallery.js'
@@ -43,7 +42,6 @@ app.get('/images/:filename',async(req,res)=>{
 app.use("/user",UserRoutes)
 app.use("/complaints",ComplaintRoutes)
 app.use("/contacts",ContactRoutes)
-app.use("/products" , ProductRoutes)
 app.use("/waste", WasteRoutes)
 app.use("/announcement", AnnouncementRoutes)
 app.use("/gallery", GalleryRoutes)

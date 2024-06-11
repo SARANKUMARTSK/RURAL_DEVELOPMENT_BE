@@ -118,12 +118,12 @@ const login = async(req,res)=>{
 
 const forgotMail = async (req, res) => {
     try {
-        let user = await UserModel.findOne({email:req.body.email})
+        let user = await UserModel.findOne({email:req.body.email})  
         let token = await Auth.createToken({
                 name:user.name,
                 email:user.email,
                 id:user._id,
-                role:user.role
+                role:user.role 
         })
         if(user){
             const transporter = nodemailer.createTransport({
@@ -171,8 +171,9 @@ const forgotMail = async (req, res) => {
         
     } catch (error) {
         res.status(500).send({
-             message: 'Failed to send password reset email.' 
+             message: error.message||'Failed to send password reset email.' 
         })
+        console.log(error);
     }
 };
 

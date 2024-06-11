@@ -8,6 +8,8 @@ import WasteRoutes from './src/routes/waste.js'
 import AnnouncementRoutes from './src/routes/announcement.js'
 import GalleryRoutes from './src/routes/gallery.js'
 import CustomerCareRoutes from './src/routes/customerCare.js'
+import ConversationRoutes from './src/routes/conversation.js'
+import MessageRoutes from './src/routes/message.js'
 
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -46,6 +48,8 @@ app.use("/waste", WasteRoutes)
 app.use("/announcement", AnnouncementRoutes)
 app.use("/gallery", GalleryRoutes)
 app.use('/customerCare',CustomerCareRoutes)
+app.use('/conversation',ConversationRoutes)
+app.use('/message',MessageRoutes) 
 
 
 app.listen(process.env.PORT,()=>console.log(`App is Running in ${process.env.PORT}`))
